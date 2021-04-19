@@ -36,6 +36,7 @@ include_directories(
   ${PICOJSON_INCLUDE_DIR}
   ${PROTOBUF_INCLUDE_DIR}
   ${RAPIDJSON_INCLUDE_DIR}
+  ${MESOS_ROOT_DIR}/src
   ${MESOS_ROOT_DIR}/3rdparty/stout/include
   ${MESOS_ROOT_DIR}/3rdparty/libprocess/include
   )
@@ -54,24 +55,11 @@ endif()
 
 
 set(MODULES_SOURCES
-  ${CMAKE_SOURCE_DIR}/src/CommandHook.cpp
-  ${CMAKE_SOURCE_DIR}/src/CommandIsolator.cpp
-  ${CMAKE_SOURCE_DIR}/src/CommandRunner.cpp
-  ${CMAKE_SOURCE_DIR}/src/RunningContext.cpp
-  ${CMAKE_SOURCE_DIR}/src/ConfigurationParser.cpp
-  ${CMAKE_SOURCE_DIR}/src/ModulesFactory.cpp
+  ${CMAKE_SOURCE_DIR}/src/SlaveSorter.cpp
 )
 
 set(MODULES_HEADERS
-  ${CMAKE_SOURCE_DIR}/src/Command.hpp
-  ${CMAKE_SOURCE_DIR}/src/CommandHook.hpp
-  ${CMAKE_SOURCE_DIR}/src/CommandIsolator.hpp
-  ${CMAKE_SOURCE_DIR}/src/CommandRunner.hpp
-  ${CMAKE_SOURCE_DIR}/src/RunningContext.hpp
-  ${CMAKE_SOURCE_DIR}/src/ConfigurationParser.hpp
-  ${CMAKE_SOURCE_DIR}/src/Helpers.hpp
-  ${CMAKE_SOURCE_DIR}/src/Logger.hpp
-  ${CMAKE_SOURCE_DIR}/src/ModulesFactory.hpp
+  ${CMAKE_SOURCE_DIR}/src/slavesorter.hpp 	
 )
 
 set(ALL_SOURCES
@@ -88,4 +76,5 @@ link_libraries(${MESOS_LIBRARIES})
 add_library(${PROJECT_NAME} SHARED ${MODULES_SOURCES})
 
 # Unit Tests building & execution
-include(UnitTestsCheck)
+#include(UnitTestsCheck)
+
