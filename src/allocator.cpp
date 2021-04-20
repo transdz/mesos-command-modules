@@ -65,7 +65,6 @@ LOG(INFO) << "Role Sorter " << roleSorter ;
 LOG(INFO) << "Framework Sorter :" << frameworkSorter;
 LOG(INFO) << "Slave Sorter :" << slaveSorter;
 
-  return HierarchicalDRFResourceSortedSlavesCPUFirstAllocator::create();
   if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
     if (roleSorter != frameworkSorter) {
