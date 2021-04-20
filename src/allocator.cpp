@@ -60,6 +60,11 @@ Try<Allocator*> Allocator::create(
   // We also look for "HierarchicalDRF" since that was the
   // previous value for `DEFAULT_ALLOCATOR`.
   // trying to use Cpu first 
+LOG(INFO) << "Name" << name;
+LOG(INFO) << "Role Sorter " << roleSorter ;
+LOG(INFO) << "Framework Sorter :" << frameworkSorter;
+LOG(INFO) << "Slave Sorter :" << slaveSorter;
+
   return HierarchicalDRFResourceSortedSlavesCPUFirstAllocator::create();
   if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
@@ -112,6 +117,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     Parameter parameter = parameters.parameter(i);
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
+  LOG(INFO) << "Initializing a module from external library ";
   Try<Allocator*> allocator = Allocator::create("HierarchicalDRF","drf","drf","cpu_first");
   if (allocator.isError()) {
     return nullptr;

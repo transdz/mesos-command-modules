@@ -474,7 +474,7 @@ void HierarchicalAllocatorProcess::initialize(
   roleSorter->initialize(options.fairnessExcludeResourceNames);
   slaveSorter->initialize(options.slaveSorterResourceWeights);
 
-  VLOG(1) << "Initialized hierarchical allocator process";
+  VLOG(1) << "Initialized hierarchical allocator process with External Module";
 
   // Start a loop to run allocation periodically.
   PID<HierarchicalAllocatorProcess> _self = self();
