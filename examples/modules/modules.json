@@ -1,7 +1,7 @@
 {
   "libraries": [
     {
-      "file": "/src/allocatorModule/mesos_allocator_module.so",
+      "file": "/src/allocatorModule/libmesos_allocator_module.so",
       "modules": [
         {
           "name": "ExternalAllocatorModule",
