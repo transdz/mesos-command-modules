@@ -39,6 +39,8 @@ using mesos::internal::master::allocator::HierarchicalRandomResourceSortedWeight
 using mesos::internal::master::allocator::HierarchicalRandomLexicographicSortedSlavesAllocator;
 using mesos::internal::master::allocator::HierarchicalRandomRandomSortedSlavesAllocator;
 
+namespace mesos {
+namespace allocator {
 
 const std::string defaultSlaveSorter = "cpu_first";
 const std::string defaultResourceWeights = "cpus(10);mem(5);disk(1)";
@@ -127,3 +129,6 @@ mesos::modules::Module<Allocator> ExternalAllocatorModule(
     nullptr,
     createExternalAllocator);
 
+
+} // namespace allocator {
+} // namespace mesos {
