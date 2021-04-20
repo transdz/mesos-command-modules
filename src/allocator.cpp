@@ -119,6 +119,10 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
 
   return allocator.get();
 }
+
+
+} // namespace allocator {
+} // namespace mesos {
 // Declares an ExternalAllocator module named 'ExternalAllocatorModule'.
 mesos::modules::Module<Allocator> ExternalAllocatorModule(
     MESOS_MODULE_API_VERSION,
@@ -127,8 +131,4 @@ mesos::modules::Module<Allocator> ExternalAllocatorModule(
     "engineer@example.com",
     "External Allocator module.",
     nullptr,
-    createExternalAllocator);
-
-
-} // namespace allocator {
-} // namespace mesos {
+    mesos::allocator::createExternalAllocator);
