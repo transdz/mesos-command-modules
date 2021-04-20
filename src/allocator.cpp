@@ -17,13 +17,14 @@ using mesos::internal::master::allocator::HierarchicalRandomResourceSortedWeight
 using mesos::internal::master::allocator::HierarchicalRandomLexicographicSortedSlavesAllocator;
 using mesos::internal::master::allocator::HierarchicalRandomRandomSortedSlavesAllocator;
 
+
 using namespace mesos;
 using mesos::allocator::Allocator;
 using mesos::internal::master::allocator::HierarchicalDRFAllocator;
 
 static Allocator* createExternalAllocator(const Parameters& parameters)
 {
-  Try<Allocator*> allocator = ExternalAllocator::create();
+  Try<Allocator*> allocator = HierarchicalDRFResourceSortedSlavesCPUFirstAllocator::create();
   if (allocator.isError()) {
     return nullptr;
   }
