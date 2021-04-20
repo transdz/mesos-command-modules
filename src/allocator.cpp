@@ -4,6 +4,19 @@
 
 #include "allocator.hpp"
 
+using mesos::internal::master::allocator::HierarchicalDRFAllocator;
+using mesos::internal::master::allocator::HierarchicalRandomAllocator;
+
+using mesos::internal::master::allocator::HierarchicalDRFRandomSortedSlavesAllocator;
+using mesos::internal::master::allocator::HierarchicalDRFResourceSortedSlavesCPUFirstAllocator;
+using mesos::internal::master::allocator::HierarchicalDRFResourceWeightsSortedSlavesAllocator;
+using mesos::internal::master::allocator::HierarchicalDRFLexicographicSortedSlavesAllocator;
+
+using mesos::internal::master::allocator::HierarchicalRandomResourceSortedCPUFirstSlavesAllocator;
+using mesos::internal::master::allocator::HierarchicalRandomResourceSortedWeightsAllocator;
+using mesos::internal::master::allocator::HierarchicalRandomLexicographicSortedSlavesAllocator;
+using mesos::internal::master::allocator::HierarchicalRandomRandomSortedSlavesAllocator;
+
 using namespace mesos;
 using mesos::allocator::Allocator;
 using mesos::internal::master::allocator::HierarchicalDRFAllocator;
