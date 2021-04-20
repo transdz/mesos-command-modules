@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(PROJECT_NAME mesos_command_modules)
+set(PROJECT_NAME mesos_allocator_module)
 project(${PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -36,8 +36,8 @@ include_directories(
   ${PICOJSON_INCLUDE_DIR}
   ${PROTOBUF_INCLUDE_DIR}
   ${RAPIDJSON_INCLUDE_DIR}
-  ${MESOS_ROOT_DIR}/src
   ${MESOS_ROOT_DIR}/3rdparty/stout/include
+  ${MESOS_ROOT_DIR}/src
   ${MESOS_ROOT_DIR}/3rdparty/libprocess/include
   )
 
@@ -55,11 +55,11 @@ endif()
 
 
 set(MODULES_SOURCES
-  ${CMAKE_SOURCE_DIR}/src/SlaveSorter.cpp
+  ${CMAKE_SOURCE_DIR}/src/allocator.cpp
 )
 
 set(MODULES_HEADERS
-  ${CMAKE_SOURCE_DIR}/src/slavesorter.hpp 	
+  ${CMAKE_SOURCE_DIR}/src/allocator.hpp 	
 )
 
 set(ALL_SOURCES

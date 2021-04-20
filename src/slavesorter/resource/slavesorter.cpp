@@ -13,48 +13,49 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include "master/allocator/mesos/slavesorter/cpu_first/slavesorter.hpp"
+#include "master/allocator/mesos/slavesorter/resource/slavesorter.hpp"
 
 namespace mesos {
 namespace internal {
 namespace master {
 namespace allocator {
 
-
-ResourceSlaveSorterCPUFirst::ResourceSlaveSorterCPUFirst() {}
-
-ResourceSlaveSorterCPUFirst::~ResourceSlaveSorterCPUFirst() {}
-
-bool ResourceSlaveSorterCPUFirst::_compare(SlaveID& l, SlaveID& r)
+class SlaveIdResourceCmp
 {
- CHECK(total_.resources.contains(l));
- CHECK(total_.resources.contains(r));
-  const Resources &lres = total_.resources[l];
-  const Resources &rres = total_.resources[r];
-  if (lres.cpus().get() < rres.cpus().get()){
-    return true;
-  }
-  else if (lres.cpus().get() > rres.cpus().get()) {
-    return false;
-  }
+private:
+  hashmap<SlaveID, Resources>& resources;
 
-  if (lres.mem().get() < rres.mem().get()){
-    return true;
-  }else if (lres.mem().get() > rres.mem().get()) {
-    return false;
-  }
+public:
+  SlaveIdResourceCmp(hashmap<SlaveID, Resources>& resources)
+    : resources(resources)
+  {}
+  bool operator()(SlaveID a, SlaveID b) const
+  {
+    CHECK(resources.contains(a));
 
-  return  (lres.disk().get() < rres.disk().get());
+    CHECK(resources.contains(b));
+
+    return a < b;
+  }
+};
+
+ResourceSlaveSorter::ResourceSlaveSorter() {}
+
+ResourceSlaveSorter::~ResourceSlaveSorter() {}
+
+bool ResourceSlaveSorter::_compare(SlaveID& l, SlaveID& r)
+{
+  return allocationRatios[l] < allocationRatios[r];
 }
 
-void ResourceSlaveSorterCPUFirst::sort(
+void ResourceSlaveSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 {
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
 }
 
-void ResourceSlaveSorterCPUFirst::add(
+void ResourceSlaveSorter::add(
   const SlaveID& slaveId,
   const SlaveInfo& slaveInfo,
   const Resources& resources)
@@ -75,10 +76,14 @@ void ResourceSlaveSorterCPUFirst::add(
       (resources.nonShared() + newShared).createStrippedScalarQuantity();
 
     total_.scalarQuantities += scalarQuantities;
+    idleWeights[slaveId] =
+      computeUnitaryResourcesProportions(total_.resources[slaveId]);
+    totalWeights[slaveId] =
+      computeResourcesWeight(slaveId, total_.resources[slaveId]);
   }
 }
 
-void ResourceSlaveSorterCPUFirst::remove(
+void ResourceSlaveSorter::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
   if (!resources.empty()) {
@@ -101,13 +106,17 @@ void ResourceSlaveSorterCPUFirst::remove(
     CHECK(total_.scalarQuantities.contains(scalarQuantities));
     total_.scalarQuantities -= scalarQuantities;
 
+    idleWeights[slaveId] =
+      computeUnitaryResourcesProportions(total_.resources[slaveId]);
+    totalWeights[slaveId] =
+      computeResourcesWeight(slaveId, total_.resources[slaveId]);
     if (total_.resources[slaveId].empty()) {
       total_.resources.erase(slaveId);
     }
   }
 }
 
-void ResourceSlaveSorterCPUFirst::allocated(
+void ResourceSlaveSorter::allocated(
   const SlaveID& slaveId, const Resources& toAdd)
 {
   // Add shared resources to the allocated quantities when the same
@@ -121,11 +130,15 @@ void ResourceSlaveSorterCPUFirst::allocated(
     (toAdd.nonShared() + sharedToAdd).createStrippedScalarQuantity();
   total_.resources[slaveId] += quantitiesToAdd;
   allocatedResources[slaveId] += toAdd;
+  allocationWeights[slaveId] =
+    computeResourcesWeight(slaveId, allocatedResources[slaveId]);
+  allocationRatios[slaveId] =
+    allocationWeights[slaveId] / totalWeights[slaveId];
   total_.scalarQuantities += quantitiesToAdd;
 }
 
 // Specify that resources have been unallocated on the given slave.
-void ResourceSlaveSorterCPUFirst::unallocated(
+void ResourceSlaveSorter::unallocated(
   const SlaveID& slaveId, const Resources& toRemove)
 {
   // TODO(jabnouneo): refine and account for shared resources
@@ -139,6 +152,10 @@ void ResourceSlaveSorterCPUFirst::unallocated(
 
   if (allocatedResources[slaveId].empty()) {
     allocatedResources.erase(slaveId);
+    allocationWeights.erase(slaveId);
+  } else {
+    allocationWeights[slaveId] =
+      computeResourcesWeight(slaveId, allocatedResources[slaveId]);
   }
 }
 
@@ -146,6 +163,3 @@ void ResourceSlaveSorterCPUFirst::unallocated(
 } // namespace master {
 } // namespace internal {
 } // namespace mesos {
-
-
-

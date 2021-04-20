@@ -1,10 +1,10 @@
 {
   "libraries": [
     {
-      "file": "/tmp/mesos/modules/libmesos_command_modules.so",
+      "file": "/src/allocatorModule/mesos_allocator_module.so",
       "modules": [
         {
-          "name": "com_criteo_mesos_CommandHook",
+          "name": "ExternalAllocatorModule",
           "parameters": [
             {
               "key": "hook_slave_run_task_label_decorator",
@@ -17,27 +17,6 @@
             {
               "key": "hook_slave_remove_executor_hook",
               "value": "/tmp/mesos/modules/slaveRemoveExecutorHook.sh"
-            },
-            {
-              "key": "debug",
-              "value": "false"
-            }
-          ]
-        },
-        {
-          "name": "com_criteo_mesos_CommandIsolator",
-          "parameters": [
-            {
-              "key": "isolator_prepare",
-              "value": "/tmp/mesos/modules/prepare.sh"
-            },
-            {
-              "key": "isolator_isolate",
-              "value": "/tmp/mesos/modules/isolate.sh"
-            },
-            {
-              "key": "isolator_cleanup",
-              "value": "/tmp/mesos/modules/cleanup.sh"
             },
             {
               "key": "debug",

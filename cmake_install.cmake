@@ -1,4 +1,4 @@
-# Install script for directory: /src/mesos-command-modules
+# Install script for directory: /src/allocatorModule
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/src/mesos-command-modules/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/src/allocatorModule/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
