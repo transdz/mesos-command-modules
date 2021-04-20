@@ -601,7 +601,7 @@ void HierarchicalAllocatorProcess::addFramework(
     trackAllocatedResources(slaveId, frameworkId, resources);
   }
 
-  LOG(INFO) << "Added framework " << frameworkId;
+  LOG(INFO) << "Added framework from here" << frameworkId;
 
   if (active) {
     allocate();
