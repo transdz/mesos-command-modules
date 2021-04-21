@@ -64,6 +64,7 @@ LOG(INFO) << "Name" << name;
 LOG(INFO) << "Role Sorter " << roleSorter ;
 LOG(INFO) << "Framework Sorter :" << frameworkSorter;
 LOG(INFO) << "Slave Sorter :" << slaveSorter;
+return HierarchicalDRFResourceWeightsSortedSlavesAllocator::create();
 
   if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
