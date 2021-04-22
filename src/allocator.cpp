@@ -118,7 +118,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = Allocator::create("HierarchicalDRF","drf","drf","cpu_first");
+  Try<Allocator*> allocator = Allocator::create("HierarchicalDRF","drf","drf","resource_weights");
   if (allocator.isError()) {
     return nullptr;
   }
