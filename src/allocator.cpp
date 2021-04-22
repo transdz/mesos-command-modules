@@ -45,7 +45,7 @@ namespace allocator {
 const std::string defaultSlaveSorter = "cpu_first";
 const std::string defaultResourceWeights = "cpus(10);mem(5);disk(1)";
 
-Try<Allocator*> Allocator::create(
+Try<Allocator*> Allocator::createCustom(
     const string& name,
     const string& roleSorter,
     const string& frameworkSorter,
@@ -116,7 +116,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = Allocator::create("test","test","test","test");
+  Try<Allocator*> allocator = Allocator::createCustom("custom","test","test","test");
   if (allocator.isError()) {
     return nullptr;
   }
