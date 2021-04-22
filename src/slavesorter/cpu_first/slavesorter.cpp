@@ -21,11 +21,11 @@ namespace master {
 namespace allocator {
 
 
-ResourceSlaveSorterCPUFirst::ResourceSlaveSorterCPUFirst() {}
+MyCustomAllocator::MyCustomAllocator() {}
 
-ResourceSlaveSorterCPUFirst::~ResourceSlaveSorterCPUFirst() {}
+MyCustomAllocator::~MyCustomAllocator() {}
 
-bool ResourceSlaveSorterCPUFirst::_compare(SlaveID& l, SlaveID& r)
+bool MyCustomAllocator::_compare(SlaveID& l, SlaveID& r)
 {
  CHECK(total_.resources.contains(l));
  CHECK(total_.resources.contains(r));
@@ -47,14 +47,14 @@ bool ResourceSlaveSorterCPUFirst::_compare(SlaveID& l, SlaveID& r)
   return  (lres.disk().get() < rres.disk().get());
 }
 
-void ResourceSlaveSorterCPUFirst::sort(
+void MyCustomAllocator::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 {
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
 }
 
-void ResourceSlaveSorterCPUFirst::add(
+void MyCustomAllocator::add(
   const SlaveID& slaveId,
   const SlaveInfo& slaveInfo,
   const Resources& resources)
@@ -78,7 +78,7 @@ void ResourceSlaveSorterCPUFirst::add(
   }
 }
 
-void ResourceSlaveSorterCPUFirst::remove(
+void MyCustomAllocator::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
   if (!resources.empty()) {
@@ -107,7 +107,7 @@ void ResourceSlaveSorterCPUFirst::remove(
   }
 }
 
-void ResourceSlaveSorterCPUFirst::allocated(
+void MyCustomAllocator::allocated(
   const SlaveID& slaveId, const Resources& toAdd)
 {
   // Add shared resources to the allocated quantities when the same
@@ -125,7 +125,7 @@ void ResourceSlaveSorterCPUFirst::allocated(
 }
 
 // Specify that resources have been unallocated on the given slave.
-void ResourceSlaveSorterCPUFirst::unallocated(
+void MyCustomAllocator::unallocated(
   const SlaveID& slaveId, const Resources& toRemove)
 {
   // TODO(jabnouneo): refine and account for shared resources
