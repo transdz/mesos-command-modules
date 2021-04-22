@@ -40,11 +40,11 @@ namespace master {
 namespace allocator {
 
 
-class MyCustomAllocator : public SlaveSorter
+class MyCustomSlaveSorter : public SlaveSorter
 {
 public:
-  MyCustomAllocator();
-  virtual ~MyCustomAllocator();
+  MyCustomSlaveSorter();
+  virtual ~MyCustomSlaveSorter();
   virtual void sort(
     std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end);
   virtual void add(

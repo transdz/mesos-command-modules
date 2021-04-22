@@ -30,7 +30,7 @@ using mesos::internal::master::allocator::HierarchicalDRFAllocator;
 using mesos::internal::master::allocator::HierarchicalRandomAllocator;
 
 using mesos::internal::master::allocator::HierarchicalDRFRandomSortedSlavesAllocator;
-using mesos::internal::master::allocator::HierarchicalDRFResourceSortedSlavesCPUFirstAllocator;
+using mesos::internal::master::allocator::MyCustomAllocator;
 using mesos::internal::master::allocator::HierarchicalDRFResourceWeightsSortedSlavesAllocator;
 using mesos::internal::master::allocator::HierarchicalDRFLexicographicSortedSlavesAllocator;
 
@@ -60,20 +60,15 @@ Try<Allocator*> Allocator::create(
   // We also look for "HierarchicalDRF" since that was the
   // previous value for `DEFAULT_ALLOCATOR`.
   // trying to use Cpu first 
-LOG(INFO) << "Name" << name;
-LOG(INFO) << "Role Sorter " << roleSorter ;
-LOG(INFO) << "Framework Sorter :" << frameworkSorter;
-LOG(INFO) << "Slave Sorter :" << slaveSorter;
-return HierarchicalDRFResourceWeightsSortedSlavesAllocator::create();
 
-  if (name == "HierarchicalDRF" ||
+if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
     if (roleSorter != frameworkSorter) {
       return Error("Unsupported combination of 'role_sorter' and 'framework_sorter': must be equal (for now)");
     }
     if (roleSorter == "drf") {
       if (slaveSorter == "cpu_first")
-        return HierarchicalDRFResourceSortedSlavesCPUFirstAllocator::create();
+        return MyCustomAllocator::create();
       if (slaveSorter == "resource_weights"){
       // TODO(jabnouneo) : check if resource weights have been passed; forward to allocator
         return HierarchicalDRFResourceWeightsSortedSlavesAllocator::create();
@@ -98,6 +93,9 @@ return HierarchicalDRFResourceWeightsSortedSlavesAllocator::create();
     }
     return Error("Unsupported 'role_sorter'.");
   }
+  if(name == "custom") {
+    return MyCustomAllocator::create();
+  }
 
   return modules::ModuleManager::create<Allocator>(name);
 }
@@ -118,7 +116,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = Allocator::create("HierarchicalDRF","drf","drf","resource_weights");
+  Try<Allocator*> allocator = MyCustomAllocator::create();
   if (allocator.isError()) {
     return nullptr;
   }

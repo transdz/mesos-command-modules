@@ -21,12 +21,13 @@ namespace master {
 namespace allocator {
 
 
-MyCustomAllocator::MyCustomAllocator() {}
+MyCustomSlaveSorter::MyCustomSlaveSorter() {}
 
-MyCustomAllocator::~MyCustomAllocator() {}
+MyCustomSlaveSorter::~MyCustomSlaveSorter() {}
 
-bool MyCustomAllocator::_compare(SlaveID& l, SlaveID& r)
+bool MyCustomSlaveSorter::_compare(SlaveID& l, SlaveID& r)
 {
+ 
  CHECK(total_.resources.contains(l));
  CHECK(total_.resources.contains(r));
   const Resources &lres = total_.resources[l];
@@ -47,18 +48,20 @@ bool MyCustomAllocator::_compare(SlaveID& l, SlaveID& r)
   return  (lres.disk().get() < rres.disk().get());
 }
 
-void MyCustomAllocator::sort(
+void MyCustomSlaveSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
-{
+{ 
+  LOG(INFO) << "trying to sort with CPU";
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
 }
 
-void MyCustomAllocator::add(
+void MyCustomSlaveSorter::add(
   const SlaveID& slaveId,
   const SlaveInfo& slaveInfo,
   const Resources& resources)
 {
+  LOG(INFO) << " added a new slave" << slaveId;
   // TODO(jabnouneo): refine
   // totalResources[slaveId] += resources.createStrippedScalarQuantity();
   if (!resources.empty()) {
@@ -78,7 +81,7 @@ void MyCustomAllocator::add(
   }
 }
 
-void MyCustomAllocator::remove(
+void MyCustomSlaveSorter::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
   if (!resources.empty()) {
@@ -107,9 +110,10 @@ void MyCustomAllocator::remove(
   }
 }
 
-void MyCustomAllocator::allocated(
+void MyCustomSlaveSorter::allocated(
   const SlaveID& slaveId, const Resources& toAdd)
 {
+  LOG(INFO) << "allocated a new resource from "<< slaveId;
   // Add shared resources to the allocated quantities when the same
   // resources don't already exist in the allocation.
   const Resources sharedToAdd =
@@ -125,7 +129,7 @@ void MyCustomAllocator::allocated(
 }
 
 // Specify that resources have been unallocated on the given slave.
-void MyCustomAllocator::unallocated(
+void MyCustomSlaveSorter::unallocated(
   const SlaveID& slaveId, const Resources& toRemove)
 {
   // TODO(jabnouneo): refine and account for shared resources
