@@ -116,7 +116,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = MyCustomAllocator::create();
+  Try<Allocator*> allocator = Allocator::create("custom","test","test","test");
   if (allocator.isError()) {
     return nullptr;
   }
