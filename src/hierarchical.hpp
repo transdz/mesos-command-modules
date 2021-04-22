@@ -43,7 +43,7 @@
 #include "master/allocator/mesos/sorter/random/sorter.hpp"
 
 #include "master/allocator/mesos/slavesorter/random/slavesorter.hpp"
-#include "master/allocator/mesos/slavesorter/cpu_first/slavesorter.hpp"
+#include "slavesorter/cpu_first/slavesorter.hpp"
 #include "master/allocator/mesos/slavesorter/resources_weights/slavesorter.hpp"
 #include "master/allocator/mesos/slavesorter/lexicographic/slavesorter.hpp"
 
