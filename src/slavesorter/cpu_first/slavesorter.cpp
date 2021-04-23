@@ -33,19 +33,19 @@ bool MyCustomSlaveSorter::_compare(SlaveID& l, SlaveID& r)
   const Resources &lres = total_.resources[l];
   const Resources &rres = total_.resources[r];
   if (lres.cpus().get() < rres.cpus().get()){
-    return true;
+    return false;
   }
   else if (lres.cpus().get() > rres.cpus().get()) {
-    return false;
+    return true;
   }
 
   if (lres.mem().get() < rres.mem().get()){
-    return true;
-  }else if (lres.mem().get() > rres.mem().get()) {
     return false;
+  }else if (lres.mem().get() > rres.mem().get()) {
+    return true;
   }
 
-  return  (lres.disk().get() < rres.disk().get());
+  return  (lres.disk().get() > rres.disk().get());
 }
 
 void MyCustomSlaveSorter::sort(
