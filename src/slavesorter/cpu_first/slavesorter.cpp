@@ -60,7 +60,17 @@ void MyCustomSlaveSorter::sort(
   LOG(INFO) << "After sort with CPU";
 
    for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
-    LOG(INFO) << *it;
+    {
+      std::ostringstream stream;
+      stream << *it ;
+      std::string str =  stream.str();
+      std::size_t found = str.find_last_of("-");
+      std::string texte = str.substr(found+1);
+      const Resources &res = total_.resources[*it];
+      LOG(INFO) << "Server" << texte << " with "<< res.cpus().get() ;
+      
+    }
+
 
 }
 
