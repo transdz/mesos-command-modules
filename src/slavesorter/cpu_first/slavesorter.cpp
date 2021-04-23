@@ -51,9 +51,19 @@ bool MyCustomSlaveSorter::_compare(SlaveID& l, SlaveID& r)
 void MyCustomSlaveSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 { 
-  LOG(INFO) << "trying to sort with CPU";
+  LOG(INFO) << "Before sort with CPU";
+   for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
+  LOG(INFO) << "After sort with CPU";
+
+   for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
 }
 
 void MyCustomSlaveSorter::add(
