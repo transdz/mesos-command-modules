@@ -53,16 +53,14 @@ void MyCustomSlaveSorter::sort(
 { 
   LOG(INFO) << "Before sort with CPU";
    for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+    LOG(INFO) << *it;
 
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
   LOG(INFO) << "After sort with CPU";
 
    for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+    LOG(INFO) << *it;
 
 }
 
