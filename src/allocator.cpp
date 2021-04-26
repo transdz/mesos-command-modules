@@ -31,7 +31,7 @@ using mesos::internal::master::allocator::HierarchicalRandomAllocator;
 
 using mesos::internal::master::allocator::HierarchicalDRFRandomSortedSlavesAllocator;
 using mesos::internal::master::allocator::MyCustomAllocator;
-using mesos::internal::master::allocator::HierarchicalDRFResourceWeightsSortedSlavesAllocator;
+using mesos::internal::master::allocator::MyResourceWeightsSortedSlavesAllocator;
 using mesos::internal::master::allocator::HierarchicalDRFLexicographicSortedSlavesAllocator;
 
 using mesos::internal::master::allocator::HierarchicalRandomResourceSortedCPUFirstSlavesAllocator;
@@ -71,7 +71,7 @@ if (name == "HierarchicalDRF" ||
         return MyCustomAllocator::create();
       if (slaveSorter == "resource_weights"){
       // TODO(jabnouneo) : check if resource weights have been passed; forward to allocator
-        return HierarchicalDRFResourceWeightsSortedSlavesAllocator::create();
+        return MyResourceWeightsSortedSlavesAllocator::create();
       }
       if (slaveSorter == "lexicographic")
         return HierarchicalDRFLexicographicSortedSlavesAllocator::create();

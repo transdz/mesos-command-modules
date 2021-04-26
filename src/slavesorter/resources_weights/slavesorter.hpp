@@ -38,11 +38,11 @@ namespace internal {
 namespace master {
 namespace allocator {
 
-class ResourcesWeightedSlaveSorter : public SlaveSorter
+class MyResourceWeightedSlaveSorter : public SlaveSorter
 {
 public:
-  ResourcesWeightedSlaveSorter();
-  virtual ~ResourcesWeightedSlaveSorter();
+  MyResourceWeightedSlaveSorter();
+  virtual ~MyResourceWeightedSlaveSorter();
 
   // Initialize the sorter.
   virtual void initialize(

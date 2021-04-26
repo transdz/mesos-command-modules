@@ -20,21 +20,21 @@ namespace internal {
 namespace master {
 namespace allocator {
 
-ResourcesWeightedSlaveSorter::ResourcesWeightedSlaveSorter() :
+MyResourceWeightedSlaveSorter::MyResourceWeightedSlaveSorter() :
   cpuWeight(1.0f),
   diskWeight(0.0f),
-  memWeight(0.0f),
+  memWeight(0.5f),
   gpuWeight(0.0f)
 {}
 
-ResourcesWeightedSlaveSorter::~ResourcesWeightedSlaveSorter() {}
+MyResourceWeightedSlaveSorter::~MyResourceWeightedSlaveSorter() {}
 
-bool ResourcesWeightedSlaveSorter::_compare(SlaveID& l, SlaveID& r)
+bool MyResourceWeightedSlaveSorter::_compare(SlaveID& l, SlaveID& r)
 {
   return allocationRatios[l] < allocationRatios[r];
 }
 
-void ResourcesWeightedSlaveSorter::initialize(const Option<std::string>& slaveSorterResourceWeights){
+void MyResourceWeightedSlaveSorter::initialize(const Option<std::string>& slaveSorterResourceWeights){
   if (slaveSorterResourceWeights.isSome()){
     Try<ResourceQuantities> resourceWeights = ResourceQuantities::fromString(slaveSorterResourceWeights.get());
     if(resourceWeights.isError()){
@@ -50,14 +50,14 @@ void ResourcesWeightedSlaveSorter::initialize(const Option<std::string>& slaveSo
   }
 }
 
-void ResourcesWeightedSlaveSorter::sort(
+void MyResourceWeightedSlaveSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 {
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
 }
 
-void ResourcesWeightedSlaveSorter::add(
+void MyResourceWeightedSlaveSorter::add(
   const SlaveID& slaveId,
   const SlaveInfo& slaveInfo,
   const Resources& resources)
@@ -76,14 +76,16 @@ void ResourcesWeightedSlaveSorter::add(
 
     const Resources scalarQuantities =
       (resources.nonShared() + newShared).createStrippedScalarQuantity();
-
+    LOG(INFO) << "Scalar quantities : "<< scalarQuantities;
+    LOG(INFO) << "Total weights  : "<<computeResourcesWeight(slaveId, total_.resources[slaveId]);
+    
     total_.scalarQuantities += scalarQuantities;
     totalWeights[slaveId] =
       computeResourcesWeight(slaveId, total_.resources[slaveId]);
   }
 }
 
-void ResourcesWeightedSlaveSorter::remove(
+void MyResourceWeightedSlaveSorter::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
   if (!resources.empty()) {
@@ -114,7 +116,7 @@ void ResourcesWeightedSlaveSorter::remove(
   }
 }
 
-void ResourcesWeightedSlaveSorter::allocated(
+void MyResourceWeightedSlaveSorter::allocated(
   const SlaveID& slaveId, const Resources& toAdd)
 {
   // Add shared resources to the allocated quantities when the same
@@ -136,7 +138,7 @@ void ResourcesWeightedSlaveSorter::allocated(
 }
 
 // Specify that resources have been unallocated on the given slave.
-void ResourcesWeightedSlaveSorter::unallocated(
+void MyResourceWeightedSlaveSorter::unallocated(
   const SlaveID& slaveId, const Resources& toRemove)
 {
   // TODO(jabnouneo): refine and account for shared resources

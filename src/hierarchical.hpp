@@ -44,6 +44,7 @@
 
 #include "master/allocator/mesos/slavesorter/random/slavesorter.hpp"
 #include "slavesorter/cpu_first/slavesorter.hpp"
+#include "slavesorter/resources_weights/slavesorter.hpp"
 #include "master/allocator/mesos/slavesorter/resources_weights/slavesorter.hpp"
 #include "master/allocator/mesos/slavesorter/lexicographic/slavesorter.hpp"
 
@@ -68,8 +69,8 @@ typedef MesosAllocator<HierarchicalDRFRandomSortedSlavesAllocatorProcess> Hierar
 typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyCustomSlaveSorter> MyCustomSlaveSorterProcess;
 typedef MesosAllocator<MyCustomSlaveSorterProcess> MyCustomAllocator;
 
-typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, ResourcesWeightedSlaveSorter> HierarchicalDRFResourceWeightsSortedSlavesProcess;
-typedef MesosAllocator<HierarchicalDRFResourceWeightsSortedSlavesProcess> HierarchicalDRFResourceWeightsSortedSlavesAllocator;
+typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyResourceWeightedSlaveSorter> MyResourceWeightsSortedSlavesProcess;
+typedef MesosAllocator<MyResourceWeightsSortedSlavesProcess> MyResourceWeightsSortedSlavesAllocator;
 
 typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, LexicographicSlaveSorter> HierarchicalDRFLexicographicSortedSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalDRFLexicographicSortedSlavesAllocatorProcess> HierarchicalDRFLexicographicSortedSlavesAllocator;
@@ -77,7 +78,7 @@ typedef MesosAllocator<HierarchicalDRFLexicographicSortedSlavesAllocatorProcess>
 typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyCustomSlaveSorter> HierarchicalRandomResourceSortedCPUFirstSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomResourceSortedCPUFirstSlavesAllocatorProcess> HierarchicalRandomResourceSortedCPUFirstSlavesAllocator;
 
-typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, ResourcesWeightedSlaveSorter> HierarchicalRandomResourceSortedWeightsAllocatorProcess;
+typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyResourceWeightedSlaveSorter> HierarchicalRandomResourceSortedWeightsAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomResourceSortedWeightsAllocatorProcess> HierarchicalRandomResourceSortedWeightsAllocator;
 
 typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, LexicographicSlaveSorter> HierarchicalRandomLexicographicSortedSlavesAllocatorProcess;
