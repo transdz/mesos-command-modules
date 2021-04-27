@@ -172,7 +172,10 @@ void MyResourceWeightedSlaveSorter::allocated(
   const Resources quantitiesToAdd =
     (toAdd.nonShared() + sharedToAdd).createStrippedScalarQuantity();
   total_.resources[slaveId] += quantitiesToAdd;
+
+  LOG(INFO) << " to remove "<< toAdd;
   allocatedResources[slaveId] += toAdd;
+  LOG(INFO) << "Allocated resources for "<< slaveId<< "=="<< allocatedResources[slaveId];
   allocationWeights[slaveId] =
     computeResourcesWeight(slaveId, allocatedResources[slaveId]);
   allocationRatios[slaveId] =
@@ -192,7 +195,9 @@ void MyResourceWeightedSlaveSorter::unallocated(
     << "Resources " << allocatedResources.at(slaveId) << " at agent " << slaveId
     << " does not contain " << toRemove;
 
+  LOG(INFO) << " to remove "<< toRemove;
   allocatedResources[slaveId] -= toRemove;
+  LOG(INFO) << "Allocated resources for "<< slaveId<< "=="<< allocatedResources[slaveId];
 
 
   if (allocatedResources[slaveId].empty()) {
