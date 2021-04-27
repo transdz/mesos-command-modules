@@ -47,6 +47,12 @@ void MyResourceWeightedSlaveSorter::initialize(const Option<std::string>& slaveS
 
     }
   LOG(INFO) << "Set slave sorter resource weights from arg string [" << slaveSorterResourceWeights.get() << "] weights : cpus:" << cpuWeight << " gpus:" << gpuWeight << " disk:" << diskWeight << " mem:" << memWeight;
+  }else {
+    cpuWeight = 1;
+    diskWeight = 0.2;
+    memWeight = 0.3;
+    gpuWeight= 0;
+    LOG(INFO) << " we dont have weights ";
   }
 }
 
