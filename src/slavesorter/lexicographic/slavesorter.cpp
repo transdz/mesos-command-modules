@@ -13,7 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#include "master/allocator/mesos/slavesorter/lexicographic/slavesorter.hpp"
+#include "slavesorter/lexicographic/slavesorter.hpp"
 
 using namespace std::placeholders;
 
@@ -22,26 +22,37 @@ namespace internal {
 namespace master {
 namespace allocator {
 
-LexicographicSlaveSorter::LexicographicSlaveSorter() {}
+MyLexicographicSorter::MyLexicographicSorter() {}
 
-LexicographicSlaveSorter::~LexicographicSlaveSorter() {}
+MyLexicographicSorter::~MyLexicographicSorter() {}
 
-bool LexicographicSlaveSorter::compareSlaves(SlaveID a, SlaveID b)
+bool MyLexicographicSorter::compareSlaves(SlaveID a, SlaveID b)
 {
   // sort by hostname
   return slaveInfos[a].mutable_hostname()->compare(
     *slaveInfos[b].mutable_hostname());
 }
-void LexicographicSlaveSorter::sort(
+void MyLexicographicSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 {
   std::sort(
     begin,
     end,
-    std::bind(&LexicographicSlaveSorter::compareSlaves, this, _1, _2));
+    std::bind(&MyLexicographicSorter::compareSlaves, this, _1, _2));
+     LOG(INFO) << "After sorting ";
+      for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
+    {
+      std::ostringstream stream;
+      stream << *it ;
+      std::string str =  stream.str();
+      std::size_t found = str.find_last_of("-");
+      std::string texte = str.substr(found+1);
+      LOG(INFO) << "Server" << texte << ": "<< *slaveInfos[*it].mutable_hostname() ;
+      
+    }
 }
 
-void LexicographicSlaveSorter::add(
+void MyLexicographicSorter::add(
   const SlaveID& slaveId,
   const SlaveInfo& slaveInfo,
   const Resources& resources)
@@ -50,7 +61,7 @@ void LexicographicSlaveSorter::add(
 }
 
 
-void LexicographicSlaveSorter::remove(
+void MyLexicographicSorter::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
   slaveInfos.erase(slaveId);

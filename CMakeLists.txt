@@ -58,14 +58,14 @@ set(MODULES_SOURCES
   ${CMAKE_SOURCE_DIR}/src/allocator.cpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/cpu_first/slavesorter.cpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/resources_weights/slavesorter.cpp
-
+  ${CMAKE_SOURCE_DIR}/src/slavesorter/lexicographic/slavesorter.cpp
 )
 
 set(MODULES_HEADERS
   ${CMAKE_SOURCE_DIR}/src/allocator.hpp 	
   ${CMAKE_SOURCE_DIR}/src/slavesorter/cpu_first/slavesorter.hpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/resources_weights/slavesorter.hpp
-
+  ${CMAKE_SOURCE_DIR}/src/slavesorter/lexicographic/slavesorter.hpp
 )
 
 set(ALL_SOURCES

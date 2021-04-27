@@ -35,11 +35,11 @@ namespace internal {
 namespace master {
 namespace allocator {
 
-class LexicographicSlaveSorter : public SlaveSorter
+class MyLexicographicSorter : public SlaveSorter
 {
 public:
-  LexicographicSlaveSorter();
-  virtual ~LexicographicSlaveSorter();
+  MyLexicographicSorter();
+  virtual ~MyLexicographicSorter();
   virtual void sort(
     std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end);
   virtual void add(

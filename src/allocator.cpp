@@ -32,7 +32,7 @@ using mesos::internal::master::allocator::HierarchicalRandomAllocator;
 using mesos::internal::master::allocator::HierarchicalDRFRandomSortedSlavesAllocator;
 using mesos::internal::master::allocator::MyCustomAllocator;
 using mesos::internal::master::allocator::MyResourceWeightsSortedSlavesAllocator;
-using mesos::internal::master::allocator::HierarchicalDRFLexicographicSortedSlavesAllocator;
+using mesos::internal::master::allocator::MyLexicographicAllocator;
 
 using mesos::internal::master::allocator::HierarchicalRandomResourceSortedCPUFirstSlavesAllocator;
 using mesos::internal::master::allocator::HierarchicalRandomResourceSortedWeightsAllocator;
@@ -77,7 +77,7 @@ if (name == "HierarchicalDRF" ||
         return MyResourceWeightsSortedSlavesAllocator::create();
       }
       if (slaveSorter == "lexicographic")
-        return HierarchicalDRFLexicographicSortedSlavesAllocator::create();
+        return MyLexicographicAllocator::create();
       if (slaveSorter == "random")
         return HierarchicalDRFRandomSortedSlavesAllocator::create();
 
@@ -119,7 +119,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = MyResourceWeightsSortedSlavesAllocator::create();
+  Try<Allocator*> allocator = MyLexicographicAllocator::create();
   if (allocator.isError()) {
     return nullptr;
   }
