@@ -475,7 +475,20 @@ void HierarchicalAllocatorProcess::initialize(
   slaveSorter->initialize(options.slaveSorterResourceWeights);
 
   VLOG(1) << "Initialized hierarchical allocator process with External Module";
-
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  LOG(INFO) << "Test log form hierarchical ";
+  
   // Start a loop to run allocation periodically.
   PID<HierarchicalAllocatorProcess> _self = self();
 
