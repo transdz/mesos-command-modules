@@ -90,7 +90,7 @@ void MyResourceWeightedSlaveSorter::sort(
       std::size_t found = str.find_last_of("-");
       std::string texte = str.substr(found+1);
       const Resources &res = total_.resources[*it];
-      LOG(INFO) << "Server" << texte << " with "<< res.cpus().get() << "and"<< res.mem().get()<<" Memory weights="<< allocationRatios[*it];
+      LOG(INFO) << "Server" << texte << " with "<< res.cpus().get() << "Cpus and "<< res.mem().get()<<" Memory weights="<< allocationRatios[*it];
       
     }
 }
@@ -100,6 +100,8 @@ void MyResourceWeightedSlaveSorter::add(
   const SlaveInfo& slaveInfo,
   const Resources& resources)
 {
+    LOG(INFO) << "Calling add function";
+
   // TODO(jabnouneo): refine
   // totalResources[slaveId] += resources.createStrippedScalarQuantity();
   if (!resources.empty()) {
@@ -126,6 +128,8 @@ void MyResourceWeightedSlaveSorter::add(
 void MyResourceWeightedSlaveSorter::remove(
   const SlaveID& slaveId, const Resources& resources)
 {
+    LOG(INFO) << "Calling remove function";
+
   if (!resources.empty()) {
     CHECK(total_.resources.contains(slaveId));
     CHECK(total_.resources[slaveId].contains(resources))
@@ -157,6 +161,7 @@ void MyResourceWeightedSlaveSorter::remove(
 void MyResourceWeightedSlaveSorter::allocated(
   const SlaveID& slaveId, const Resources& toAdd)
 {
+  LOG(INFO) << "Calling allocated function";
   // Add shared resources to the allocated quantities when the same
   // resources don't already exist in the allocation.
   const Resources sharedToAdd =
@@ -179,6 +184,8 @@ void MyResourceWeightedSlaveSorter::allocated(
 void MyResourceWeightedSlaveSorter::unallocated(
   const SlaveID& slaveId, const Resources& toRemove)
 {
+    LOG(INFO) << "Calling unallocated function";
+
   // TODO(jabnouneo): refine and account for shared resources
   CHECK(allocatedResources.contains(slaveId));
   CHECK(allocatedResources.at(slaveId).contains(toRemove))
