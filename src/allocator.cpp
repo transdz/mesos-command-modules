@@ -119,7 +119,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = MyCustomAllocator::create();
+  Try<Allocator*> allocator = MyResourceWeightsSortedSlavesAllocator::create();
   if (allocator.isError()) {
     return nullptr;
   }
