@@ -1765,7 +1765,16 @@ void HierarchicalAllocatorProcess::__allocate()
   }
 
   slaveSorter->sort(slaveIds.begin(), slaveIds.end());
-
+  LOG(INFO) << "Inside allocator ";
+  for (std::vector<SlaveID>::iterator it = slaveIds.begin(); it != slaveIds.end(); ++it)
+  {
+    std::ostringstream stream;
+    stream << *it ;
+    std::string str =  stream.str();
+    std::size_t found = str.find_last_of("-");
+    std::string texte = str.substr(found+1);
+    LOG(INFO) << "Server" << texte << ": "<< *slaveInfos[*it].mutable_hostname() ;  
+  }
   // To enforce quota, we keep track of consumed quota for roles with a
   // non-default quota.
   //
