@@ -119,7 +119,7 @@ void MyResourceWeightedSlaveSorter::add(
     LOG(INFO) << "Slave id = "<< slaveId;
     LOG(INFO) << "Scalar quantities : "<< scalarQuantities;
     LOG(INFO) << "Total weights  : "<<computeResourcesWeight(slaveId, total_.resources[slaveId]);
-    LOG(INFO) << "Total resources : "<< total_[slaveId];
+    LOG(INFO) << "Total resources : "<< total_.resources[slaveId];
     total_.scalarQuantities += scalarQuantities;
     totalWeights[slaveId] =
       computeResourcesWeight(slaveId, total_.resources[slaveId]);
