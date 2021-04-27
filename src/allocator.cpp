@@ -62,6 +62,8 @@ Try<Allocator*> Allocator::create(
   // trying to use Cpu first 
 LOG(INFO) << "allocator name to initialize is " << name ;
 LOG(INFO) << "slave sorter is "<< slaveSorter;
+return MyResourceWeightsSortedSlavesAllocator::create();
+
 if (name == "HierarchicalDRF" ||
       name == mesos::internal::master::DEFAULT_ALLOCATOR) {
     if (roleSorter != frameworkSorter) {
