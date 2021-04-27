@@ -31,7 +31,7 @@ MyResourceWeightedSlaveSorter::~MyResourceWeightedSlaveSorter() {}
 
 bool MyResourceWeightedSlaveSorter::_compare(SlaveID& l, SlaveID& r)
 {
-  return allocationRatios[l] < allocationRatios[r];
+  return allocationRatios[l] > allocationRatios[r];
 }
 
 void MyResourceWeightedSlaveSorter::initialize(const Option<std::string>& slaveSorterResourceWeights){
