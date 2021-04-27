@@ -1773,7 +1773,7 @@ void HierarchicalAllocatorProcess::__allocate()
     std::string str =  stream.str();
     std::size_t found = str.find_last_of("-");
     std::string texte = str.substr(found+1);
-    LOG(INFO) << "Server" << texte << ": "<< *slaveInfos[*it].mutable_hostname() ;  
+    LOG(INFO) << "Server" << texte ;
   }
   // To enforce quota, we keep track of consumed quota for roles with a
   // non-default quota.
