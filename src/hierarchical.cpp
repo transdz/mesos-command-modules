@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "master/allocator/mesos/hierarchical.hpp"
+#include "hierarchical.hpp"
 
 #include <algorithm>
 #include <set>
