@@ -63,8 +63,36 @@ void MyResourceWeightedSlaveSorter::initialize(const Option<std::string>& slaveS
 void MyResourceWeightedSlaveSorter::sort(
   std::vector<SlaveID>::iterator begin, std::vector<SlaveID>::iterator end)
 {
+
+
+   LOG(INFO) << "Before sorting ";
+   for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
+    {
+      std::ostringstream stream;
+      stream << *it ;
+      std::string str =  stream.str();
+      std::size_t found = str.find_last_of("-");
+      std::string texte = str.substr(found+1);
+      const Resources &res = total_.resources[*it];
+      LOG(INFO) << "Server" << texte << " with "<< res.cpus().get() << "and"<< res.mem().get()<<" Memory weights="<< allocationRatios[*it];
+      
+    }
+
   std::sort(
     begin, end, [this](SlaveID l, SlaveID r) { return _compare(l, r); });
+
+   LOG(INFO) << "After sorting ";
+   for (std::vector<SlaveID>::iterator it = begin; it != end; ++it)
+    {
+      std::ostringstream stream;
+      stream << *it ;
+      std::string str =  stream.str();
+      std::size_t found = str.find_last_of("-");
+      std::string texte = str.substr(found+1);
+      const Resources &res = total_.resources[*it];
+      LOG(INFO) << "Server" << texte << " with "<< res.cpus().get() << "and"<< res.mem().get()<<" Memory weights="<< allocationRatios[*it];
+      
+    }
 }
 
 void MyResourceWeightedSlaveSorter::add(
