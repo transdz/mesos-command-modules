@@ -174,7 +174,7 @@ void MyResourceWeightedSlaveSorter::allocated(
     (toAdd.nonShared() + sharedToAdd).createStrippedScalarQuantity();
   total_.resources[slaveId] += quantitiesToAdd;
 
-  LOG(INFO) << " to remove "<< toAdd;
+  LOG(INFO) << " to Add "<< toAdd;
   allocatedResources[slaveId] += toAdd;
   LOG(INFO) << "Allocated resources for "<< slaveId<< "=="<< allocatedResources[slaveId];
   allocationWeights[slaveId] =
@@ -199,6 +199,7 @@ void MyResourceWeightedSlaveSorter::unallocated(
   LOG(INFO) << " to remove "<< toRemove;
   allocatedResources[slaveId] -= toRemove;
   LOG(INFO) << "Allocated resources for "<< slaveId<< "=="<< allocatedResources[slaveId];
+  LOG(INFO) << "Available resources for "<< slaveId<< "=="<< total_.resources[slaveId];
 
 
   if (allocatedResources[slaveId].empty()) {
