@@ -61,30 +61,30 @@ template <
     typename RoleSorter,
     typename FrameworkSorter,
     typename SlaveSorter>
-class MyHierarchicalAllocatorProcess;
+class HierarchicalAllocatorProcess;
 
-typedef MyHierarchicalAllocatorProcess<DRFSorter, DRFSorter, RandomSlaveSorter> HierarchicalDRFRandomSortedSlavesAllocatorProcess;
+typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, RandomSlaveSorter> HierarchicalDRFRandomSortedSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalDRFRandomSortedSlavesAllocatorProcess> HierarchicalDRFRandomSortedSlavesAllocator;
 
-typedef MyHierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyCustomSlaveSorter> MyCustomSlaveSorterProcess;
+typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyCustomSlaveSorter> MyCustomSlaveSorterProcess;
 typedef MesosAllocator<MyCustomSlaveSorterProcess> MyCustomAllocator;
 
-typedef MyHierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyResourceWeightedSlaveSorter> MyResourceWeightsSortedSlavesProcess;
+typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyResourceWeightedSlaveSorter> MyResourceWeightsSortedSlavesProcess;
 typedef MesosAllocator<MyResourceWeightsSortedSlavesProcess> MyResourceWeightsSortedSlavesAllocator;
 
-typedef MyHierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyLexicographicSorter> MyLexicographicAllocatorProcess;
+typedef HierarchicalAllocatorProcess<DRFSorter, DRFSorter, MyLexicographicSorter> MyLexicographicAllocatorProcess;
 typedef MesosAllocator<MyLexicographicAllocatorProcess> MyLexicographicAllocator;
 
-typedef MyHierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyCustomSlaveSorter> HierarchicalRandomResourceSortedCPUFirstSlavesAllocatorProcess;
+typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyCustomSlaveSorter> HierarchicalRandomResourceSortedCPUFirstSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomResourceSortedCPUFirstSlavesAllocatorProcess> HierarchicalRandomResourceSortedCPUFirstSlavesAllocator;
 
-typedef MyHierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyResourceWeightedSlaveSorter> HierarchicalRandomResourceSortedWeightsAllocatorProcess;
+typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyResourceWeightedSlaveSorter> HierarchicalRandomResourceSortedWeightsAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomResourceSortedWeightsAllocatorProcess> HierarchicalRandomResourceSortedWeightsAllocator;
 
-typedef MyHierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyLexicographicSorter> HierarchicalRandomLexicographicSortedSlavesAllocatorProcess;
+typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, MyLexicographicSorter> HierarchicalRandomLexicographicSortedSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomLexicographicSortedSlavesAllocatorProcess> HierarchicalRandomLexicographicSortedSlavesAllocator;
 
-typedef MyHierarchicalAllocatorProcess<RandomSorter, RandomSorter, RandomSlaveSorter> HierarchicalRandomRandomSortedSlavesAllocatorProcess;
+typedef HierarchicalAllocatorProcess<RandomSorter, RandomSorter, RandomSlaveSorter> HierarchicalRandomRandomSortedSlavesAllocatorProcess;
 typedef MesosAllocator<HierarchicalRandomRandomSortedSlavesAllocatorProcess> HierarchicalRandomRandomSortedSlavesAllocator;
 
 typedef HierarchicalDRFRandomSortedSlavesAllocatorProcess HierarchicalDRFAllocatorProcess;
@@ -429,10 +429,10 @@ private:
 
 // Implements the basic allocator algorithm - first pick a role by
 // some criteria, then pick one of their frameworks to allocate to.
-class MyHierarchicalAllocatorProcess : public MesosAllocatorProcess
+class HierarchicalAllocatorProcess : public MesosAllocatorProcess
 {
 public:
-  MyHierarchicalAllocatorProcess(
+  HierarchicalAllocatorProcess(
       const std::function<Sorter*()>& roleSorterFactory,
       const std::function<Sorter*()>& _frameworkSorterFactory,
       const std::function<SlaveSorter*()>& slaveSorterFactory
@@ -446,9 +446,9 @@ public:
       frameworkSorterFactory(_frameworkSorterFactory),
       slaveSorter(slaveSorterFactory()) {}
 
-  ~MyHierarchicalAllocatorProcess() override {}
+  ~HierarchicalAllocatorProcess() override {}
 
-  process::PID<MyHierarchicalAllocatorProcess> self() const
+  process::PID<HierarchicalAllocatorProcess> self() const
   {
     return process::PID<Self>(this);
   }
@@ -578,8 +578,8 @@ public:
 
 protected:
   // Useful typedefs for dispatch/delay/defer to self()/this.
-  typedef MyHierarchicalAllocatorProcess Self;
-  typedef MyHierarchicalAllocatorProcess This;
+  typedef HierarchicalAllocatorProcess Self;
+  typedef HierarchicalAllocatorProcess This;
 
   // Allocate any allocatable resources from all known agents.
   process::Future<Nothing> allocate();
@@ -829,20 +829,20 @@ private:
 } // namespace internal {
 
 
-// We map the templatized version of the `MyHierarchicalAllocatorProcess` to one
+// We map the templatized version of the `HierarchicalAllocatorProcess` to one
 // that relies on sorter factories in the internal namespace. This allows us
 // to keep the implementation of the allocator in the implementation file.
 template <
     typename RoleSorter,
     typename FrameworkSorter,
     typename SlaveSorter>
-class MyHierarchicalAllocatorProcess
-  : public internal::MyHierarchicalAllocatorProcess
+class HierarchicalAllocatorProcess
+  : public internal::HierarchicalAllocatorProcess
 {
 public:
-  MyHierarchicalAllocatorProcess()
+  HierarchicalAllocatorProcess()
     : ProcessBase(process::ID::generate("hierarchical-allocator")),
-      internal::MyHierarchicalAllocatorProcess(
+      internal::HierarchicalAllocatorProcess(
           [this]() -> Sorter* {
             return new RoleSorter(this->self(), "allocator/mesos/roles/");
           },

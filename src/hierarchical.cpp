@@ -448,7 +448,7 @@ Framework::Framework(
         unpackFrameworkOfferFilters(frameworkInfo.offer_filters())) {}
 
 
-void MyHierarchicalAllocatorProcess::initialize(
+void HierarchicalAllocatorProcess::initialize(
     const Options& _options,
     const lambda::function<
         void(const FrameworkID&,
@@ -490,7 +490,7 @@ void MyHierarchicalAllocatorProcess::initialize(
   LOG(INFO) << "Test log form hierarchical ";
   
   // Start a loop to run allocation periodically.
-  PID<MyHierarchicalAllocatorProcess> _self = self();
+  PID<HierarchicalAllocatorProcess> _self = self();
 
   // Set a temporary variable for the lambda capture.
   Duration allocationInterval = options.allocationInterval;
@@ -500,13 +500,13 @@ void MyHierarchicalAllocatorProcess::initialize(
         return after(allocationInterval);
       },
       [_self](const Nothing&) {
-        return dispatch(_self, &MyHierarchicalAllocatorProcess::allocate)
+        return dispatch(_self, &HierarchicalAllocatorProcess::allocate)
           .then([]() -> ControlFlow<Nothing> { return Continue(); });
       });
 }
 
 
-void MyHierarchicalAllocatorProcess::recover(
+void HierarchicalAllocatorProcess::recover(
     const int _expectedAgentCount,
     const hashmap<string, Quota>& quotas)
 {
@@ -564,7 +564,7 @@ void MyHierarchicalAllocatorProcess::recover(
 }
 
 
-void MyHierarchicalAllocatorProcess::addFramework(
+void HierarchicalAllocatorProcess::addFramework(
     const FrameworkID& frameworkId,
     const FrameworkInfo& frameworkInfo,
     const hashmap<SlaveID, Resources>& used,
@@ -624,7 +624,7 @@ void MyHierarchicalAllocatorProcess::addFramework(
 }
 
 
-void MyHierarchicalAllocatorProcess::removeFramework(
+void HierarchicalAllocatorProcess::removeFramework(
     const FrameworkID& frameworkId)
 {
   CHECK(initialized);
@@ -668,7 +668,7 @@ void MyHierarchicalAllocatorProcess::removeFramework(
 }
 
 
-void MyHierarchicalAllocatorProcess::activateFramework(
+void HierarchicalAllocatorProcess::activateFramework(
     const FrameworkID& frameworkId)
 {
   CHECK(initialized);
@@ -696,7 +696,7 @@ void MyHierarchicalAllocatorProcess::activateFramework(
 }
 
 
-void MyHierarchicalAllocatorProcess::deactivateFramework(
+void HierarchicalAllocatorProcess::deactivateFramework(
     const FrameworkID& frameworkId)
 {
   CHECK(initialized);
@@ -724,7 +724,7 @@ void MyHierarchicalAllocatorProcess::deactivateFramework(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateFramework(
+void HierarchicalAllocatorProcess::updateFramework(
     const FrameworkID& frameworkId,
     const FrameworkInfo& frameworkInfo,
     const set<string>& suppressedRoles)
@@ -784,7 +784,7 @@ void MyHierarchicalAllocatorProcess::updateFramework(
 }
 
 
-void MyHierarchicalAllocatorProcess::addSlave(
+void HierarchicalAllocatorProcess::addSlave(
     const SlaveID& slaveId,
     const SlaveInfo& slaveInfo,
     const vector<SlaveInfo::Capability>& capabilities,
@@ -877,7 +877,7 @@ void MyHierarchicalAllocatorProcess::addSlave(
 }
 
 
-void MyHierarchicalAllocatorProcess::removeSlave(
+void HierarchicalAllocatorProcess::removeSlave(
     const SlaveID& slaveId)
 {
   CHECK(initialized);
@@ -910,7 +910,7 @@ void MyHierarchicalAllocatorProcess::removeSlave(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateSlave(
+void HierarchicalAllocatorProcess::updateSlave(
     const SlaveID& slaveId,
     const SlaveInfo& info,
     const Option<Resources>& total,
@@ -975,7 +975,7 @@ void MyHierarchicalAllocatorProcess::updateSlave(
 }
 
 
-void MyHierarchicalAllocatorProcess::addResourceProvider(
+void HierarchicalAllocatorProcess::addResourceProvider(
     const SlaveID& slaveId,
     const Resources& total,
     const hashmap<FrameworkID, Resources>& used)
@@ -1014,7 +1014,7 @@ void MyHierarchicalAllocatorProcess::addResourceProvider(
 }
 
 
-void MyHierarchicalAllocatorProcess::removeFilters(const SlaveID& slaveId)
+void HierarchicalAllocatorProcess::removeFilters(const SlaveID& slaveId)
 {
   CHECK(initialized);
 
@@ -1033,7 +1033,7 @@ void MyHierarchicalAllocatorProcess::removeFilters(const SlaveID& slaveId)
 }
 
 
-void MyHierarchicalAllocatorProcess::activateSlave(
+void HierarchicalAllocatorProcess::activateSlave(
     const SlaveID& slaveId)
 {
   CHECK(initialized);
@@ -1045,7 +1045,7 @@ void MyHierarchicalAllocatorProcess::activateSlave(
 }
 
 
-void MyHierarchicalAllocatorProcess::deactivateSlave(
+void HierarchicalAllocatorProcess::deactivateSlave(
     const SlaveID& slaveId)
 {
   CHECK(initialized);
@@ -1057,7 +1057,7 @@ void MyHierarchicalAllocatorProcess::deactivateSlave(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateWhitelist(
+void HierarchicalAllocatorProcess::updateWhitelist(
     const Option<hashset<string>>& _whitelist)
 {
   CHECK(initialized);
@@ -1076,7 +1076,7 @@ void MyHierarchicalAllocatorProcess::updateWhitelist(
 }
 
 
-void MyHierarchicalAllocatorProcess::requestResources(
+void HierarchicalAllocatorProcess::requestResources(
     const FrameworkID& frameworkId,
     const vector<Request>& requests)
 {
@@ -1086,7 +1086,7 @@ void MyHierarchicalAllocatorProcess::requestResources(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateAllocation(
+void HierarchicalAllocatorProcess::updateAllocation(
     const FrameworkID& frameworkId,
     const SlaveID& slaveId,
     const Resources& offeredResources,
@@ -1215,7 +1215,7 @@ void MyHierarchicalAllocatorProcess::updateAllocation(
 }
 
 
-Future<Nothing> MyHierarchicalAllocatorProcess::updateAvailable(
+Future<Nothing> HierarchicalAllocatorProcess::updateAvailable(
     const SlaveID& slaveId,
     const vector<Offer::Operation>& operations)
 {
@@ -1258,7 +1258,7 @@ Future<Nothing> MyHierarchicalAllocatorProcess::updateAvailable(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateUnavailability(
+void HierarchicalAllocatorProcess::updateUnavailability(
     const SlaveID& slaveId,
     const Option<Unavailability>& unavailability)
 {
@@ -1290,7 +1290,7 @@ void MyHierarchicalAllocatorProcess::updateUnavailability(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateInverseOffer(
+void HierarchicalAllocatorProcess::updateInverseOffer(
     const SlaveID& slaveId,
     const FrameworkID& frameworkId,
     const Option<UnavailableResources>& unavailableResources,
@@ -1389,7 +1389,7 @@ void MyHierarchicalAllocatorProcess::updateInverseOffer(
 
 
 Future<hashmap<SlaveID, hashmap<FrameworkID, InverseOfferStatus>>>
-MyHierarchicalAllocatorProcess::getInverseOfferStatuses()
+HierarchicalAllocatorProcess::getInverseOfferStatuses()
 {
   CHECK(initialized);
 
@@ -1406,7 +1406,7 @@ MyHierarchicalAllocatorProcess::getInverseOfferStatuses()
 }
 
 
-void MyHierarchicalAllocatorProcess::recoverResources(
+void HierarchicalAllocatorProcess::recoverResources(
     const FrameworkID& frameworkId,
     const SlaveID& slaveId,
     const Resources& resources,
@@ -1549,7 +1549,7 @@ void MyHierarchicalAllocatorProcess::recoverResources(
 }
 
 
-void MyHierarchicalAllocatorProcess::suppressRoles(
+void HierarchicalAllocatorProcess::suppressRoles(
     Framework& framework, const set<string>& roles)
 {
   CHECK(initialized);
@@ -1573,7 +1573,7 @@ void MyHierarchicalAllocatorProcess::suppressRoles(
 }
 
 
-void MyHierarchicalAllocatorProcess::suppressOffers(
+void HierarchicalAllocatorProcess::suppressOffers(
     const FrameworkID& frameworkId,
     const set<string>& roles_)
 {
@@ -1584,7 +1584,7 @@ void MyHierarchicalAllocatorProcess::suppressOffers(
 }
 
 
-void MyHierarchicalAllocatorProcess::reviveRoles(
+void HierarchicalAllocatorProcess::reviveRoles(
     Framework& framework, const set<string>& roles)
 {
   CHECK(initialized);
@@ -1613,7 +1613,7 @@ void MyHierarchicalAllocatorProcess::reviveRoles(
 }
 
 
-void MyHierarchicalAllocatorProcess::reviveOffers(
+void HierarchicalAllocatorProcess::reviveOffers(
     const FrameworkID& frameworkId,
     const set<string>& roles)
 {
@@ -1627,7 +1627,7 @@ void MyHierarchicalAllocatorProcess::reviveOffers(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateQuota(
+void HierarchicalAllocatorProcess::updateQuota(
     const string& role, const Quota& quota)
 {
   CHECK(initialized);
@@ -1641,7 +1641,7 @@ void MyHierarchicalAllocatorProcess::updateQuota(
 }
 
 
-void MyHierarchicalAllocatorProcess::updateWeights(
+void HierarchicalAllocatorProcess::updateWeights(
     const vector<WeightInfo>& weightInfos)
 {
   CHECK(initialized);
@@ -1661,7 +1661,7 @@ void MyHierarchicalAllocatorProcess::updateWeights(
 }
 
 
-void MyHierarchicalAllocatorProcess::pause()
+void HierarchicalAllocatorProcess::pause()
 {
   if (!paused) {
     VLOG(1) << "Allocation paused";
@@ -1671,7 +1671,7 @@ void MyHierarchicalAllocatorProcess::pause()
 }
 
 
-void MyHierarchicalAllocatorProcess::resume()
+void HierarchicalAllocatorProcess::resume()
 {
   if (paused) {
     LOG(INFO) << "Allocation resumed";
@@ -1681,13 +1681,13 @@ void MyHierarchicalAllocatorProcess::resume()
 }
 
 
-Future<Nothing> MyHierarchicalAllocatorProcess::allocate()
+Future<Nothing> HierarchicalAllocatorProcess::allocate()
 {
   return allocate(slaves.keys());
 }
 
 
-Future<Nothing> MyHierarchicalAllocatorProcess::allocate(
+Future<Nothing> HierarchicalAllocatorProcess::allocate(
     const SlaveID& slaveId)
 {
   hashset<SlaveID> slaves({slaveId});
@@ -1695,7 +1695,7 @@ Future<Nothing> MyHierarchicalAllocatorProcess::allocate(
 }
 
 
-Future<Nothing> MyHierarchicalAllocatorProcess::allocate(
+Future<Nothing> HierarchicalAllocatorProcess::allocate(
     const hashset<SlaveID>& slaveIds)
 {
   if (paused) {
@@ -1715,7 +1715,7 @@ Future<Nothing> MyHierarchicalAllocatorProcess::allocate(
 }
 
 
-Nothing MyHierarchicalAllocatorProcess::_allocate()
+Nothing HierarchicalAllocatorProcess::_allocate()
 {
   metrics.allocation_run_latency.stop();
 
@@ -1751,7 +1751,7 @@ Nothing MyHierarchicalAllocatorProcess::_allocate()
 
 
 // TODO(alexr): Consider factoring out the quota allocation logic.
-void MyHierarchicalAllocatorProcess::__allocate()
+void HierarchicalAllocatorProcess::__allocate()
 {
   // Compute the offerable resources, per framework:
   //   (1) For reserved resources on the slave, allocate these to a
@@ -2374,7 +2374,7 @@ void MyHierarchicalAllocatorProcess::__allocate()
 }
 
 
-void MyHierarchicalAllocatorProcess::deallocate()
+void HierarchicalAllocatorProcess::deallocate()
 {
   // In this case, `offerable` is actually the slaves and/or resources that we
   // want the master to create `InverseOffer`s from.
@@ -2465,7 +2465,7 @@ void MyHierarchicalAllocatorProcess::deallocate()
 }
 
 
-void MyHierarchicalAllocatorProcess::_expire(
+void HierarchicalAllocatorProcess::_expire(
     const FrameworkID& frameworkId,
     const string& role,
     const SlaveID& slaveId,
@@ -2506,7 +2506,7 @@ void MyHierarchicalAllocatorProcess::_expire(
 }
 
 
-void MyHierarchicalAllocatorProcess::expire(
+void HierarchicalAllocatorProcess::expire(
     const FrameworkID& frameworkId,
     const string& role,
     const SlaveID& slaveId,
@@ -2522,14 +2522,14 @@ void MyHierarchicalAllocatorProcess::expire(
 }
 
 
-void MyHierarchicalAllocatorProcess::expire(
+void HierarchicalAllocatorProcess::expire(
     const FrameworkID& frameworkId,
     const SlaveID& slaveId,
     const weak_ptr<InverseOfferFilter>& inverseOfferFilter)
 {
   // The filter might have already been removed (e.g., if the
   // framework no longer exists or in
-  // MyHierarchicalAllocatorProcess::reviveOffers) but
+  // HierarchicalAllocatorProcess::reviveOffers) but
   // we may land here if the cancelation of the expiry timeout
   // did not succeed (due to the dispatch already being in the
   // queue).
@@ -2556,7 +2556,7 @@ void MyHierarchicalAllocatorProcess::expire(
 }
 
 
-bool MyHierarchicalAllocatorProcess::isWhitelisted(
+bool HierarchicalAllocatorProcess::isWhitelisted(
     const SlaveID& slaveId) const
 {
   return whitelist.isNone() ||
@@ -2564,7 +2564,7 @@ bool MyHierarchicalAllocatorProcess::isWhitelisted(
 }
 
 
-bool MyHierarchicalAllocatorProcess::isFiltered(
+bool HierarchicalAllocatorProcess::isFiltered(
     const Framework& framework,
     const string& role,
     const Slave& slave,
@@ -2624,7 +2624,7 @@ bool MyHierarchicalAllocatorProcess::isFiltered(
 }
 
 
-bool MyHierarchicalAllocatorProcess::isFiltered(
+bool HierarchicalAllocatorProcess::isFiltered(
     const Framework& framework, const Slave& slave) const
 {
   if (framework.inverseOfferFilters.contains(slave.info.id())) {
@@ -2643,7 +2643,7 @@ bool MyHierarchicalAllocatorProcess::isFiltered(
 }
 
 
-bool MyHierarchicalAllocatorProcess::allocatable(
+bool HierarchicalAllocatorProcess::allocatable(
     const Resources& resources,
     const string& role,
     const Framework& framework) const
@@ -2680,7 +2680,7 @@ bool MyHierarchicalAllocatorProcess::allocatable(
 }
 
 
-double MyHierarchicalAllocatorProcess::_resources_offered_or_allocated(
+double HierarchicalAllocatorProcess::_resources_offered_or_allocated(
     const string& resource)
 {
   double offered_or_allocated = 0;
@@ -2698,14 +2698,14 @@ double MyHierarchicalAllocatorProcess::_resources_offered_or_allocated(
 }
 
 
-double MyHierarchicalAllocatorProcess::_resources_total(
+double HierarchicalAllocatorProcess::_resources_total(
     const string& resource)
 {
   return roleSorter->totalScalarQuantities().get(resource).value();
 }
 
 
-double MyHierarchicalAllocatorProcess::_quota_allocated(
+double HierarchicalAllocatorProcess::_quota_allocated(
     const string& role,
     const string& resource)
 {
@@ -2719,7 +2719,7 @@ double MyHierarchicalAllocatorProcess::_quota_allocated(
 }
 
 
-double MyHierarchicalAllocatorProcess::_offer_filters_active(
+double HierarchicalAllocatorProcess::_offer_filters_active(
     const string& role)
 {
   double result = 0;
@@ -2738,7 +2738,7 @@ double MyHierarchicalAllocatorProcess::_offer_filters_active(
 }
 
 
-bool MyHierarchicalAllocatorProcess::isFrameworkTrackedUnderRole(
+bool HierarchicalAllocatorProcess::isFrameworkTrackedUnderRole(
     const FrameworkID& frameworkId, const string& role) const
 {
   Option<const Role*> r = roleTree.get(role);
@@ -2746,7 +2746,7 @@ bool MyHierarchicalAllocatorProcess::isFrameworkTrackedUnderRole(
 }
 
 
-Option<Slave*> MyHierarchicalAllocatorProcess::getSlave(
+Option<Slave*> HierarchicalAllocatorProcess::getSlave(
     const SlaveID& slaveId) const
 {
   auto it = slaves.find(slaveId);
@@ -2757,7 +2757,7 @@ Option<Slave*> MyHierarchicalAllocatorProcess::getSlave(
 }
 
 
-Option<Framework*> MyHierarchicalAllocatorProcess::getFramework(
+Option<Framework*> HierarchicalAllocatorProcess::getFramework(
     const FrameworkID& frameworkId) const
 {
   auto it = frameworks.find(frameworkId);
@@ -2768,7 +2768,7 @@ Option<Framework*> MyHierarchicalAllocatorProcess::getFramework(
 }
 
 
-Option<Sorter*> MyHierarchicalAllocatorProcess::getFrameworkSorter(
+Option<Sorter*> HierarchicalAllocatorProcess::getFrameworkSorter(
     const string& role) const
 {
   auto it = frameworkSorters.find(role);
@@ -2779,7 +2779,7 @@ Option<Sorter*> MyHierarchicalAllocatorProcess::getFrameworkSorter(
 }
 
 
-const Quota& MyHierarchicalAllocatorProcess::getQuota(const string& role) const
+const Quota& HierarchicalAllocatorProcess::getQuota(const string& role) const
 {
   Option<const Role*> r = roleTree.get(role);
 
@@ -2787,7 +2787,7 @@ const Quota& MyHierarchicalAllocatorProcess::getQuota(const string& role) const
 }
 
 
-void MyHierarchicalAllocatorProcess::trackFrameworkUnderRole(
+void HierarchicalAllocatorProcess::trackFrameworkUnderRole(
     const FrameworkID& frameworkId, const string& role)
 {
   CHECK(initialized);
@@ -2822,7 +2822,7 @@ void MyHierarchicalAllocatorProcess::trackFrameworkUnderRole(
 }
 
 
-void MyHierarchicalAllocatorProcess::untrackFrameworkUnderRole(
+void HierarchicalAllocatorProcess::untrackFrameworkUnderRole(
     const FrameworkID& frameworkId, const string& role)
 {
   CHECK(initialized);
@@ -2844,7 +2844,7 @@ void MyHierarchicalAllocatorProcess::untrackFrameworkUnderRole(
 }
 
 
-bool MyHierarchicalAllocatorProcess::updateSlaveTotal(
+bool HierarchicalAllocatorProcess::updateSlaveTotal(
     const SlaveID& slaveId,
     const Resources& total)
 {
@@ -2874,7 +2874,7 @@ bool MyHierarchicalAllocatorProcess::updateSlaveTotal(
 }
 
 
-bool MyHierarchicalAllocatorProcess::isRemoteSlave(const Slave& slave) const
+bool HierarchicalAllocatorProcess::isRemoteSlave(const Slave& slave) const
 {
   // If the slave does not have a configured domain, assume it is not remote.
   if (!slave.info.has_domain()) {
@@ -2908,7 +2908,7 @@ bool MyHierarchicalAllocatorProcess::isRemoteSlave(const Slave& slave) const
 }
 
 
-bool MyHierarchicalAllocatorProcess::isCapableOfReceivingAgent(
+bool HierarchicalAllocatorProcess::isCapableOfReceivingAgent(
     const protobuf::framework::Capabilities& frameworkCapabilities,
     const Slave& slave) const
 {
@@ -2930,7 +2930,7 @@ bool MyHierarchicalAllocatorProcess::isCapableOfReceivingAgent(
 }
 
 
-Resources MyHierarchicalAllocatorProcess::stripIncapableResources(
+Resources HierarchicalAllocatorProcess::stripIncapableResources(
     const Resources& resources,
     const protobuf::framework::Capabilities& frameworkCapabilities) const
 {
@@ -2964,7 +2964,7 @@ Resources MyHierarchicalAllocatorProcess::stripIncapableResources(
 }
 
 
-void MyHierarchicalAllocatorProcess::trackAllocatedResources(
+void HierarchicalAllocatorProcess::trackAllocatedResources(
     const SlaveID& slaveId,
     const FrameworkID& frameworkId,
     const Resources& allocated)
@@ -2999,7 +2999,7 @@ void MyHierarchicalAllocatorProcess::trackAllocatedResources(
 }
 
 
-void MyHierarchicalAllocatorProcess::untrackAllocatedResources(
+void HierarchicalAllocatorProcess::untrackAllocatedResources(
     const SlaveID& slaveId,
     const FrameworkID& frameworkId,
     const Resources& allocated)
