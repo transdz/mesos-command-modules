@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "hierarchical.hpp"
+#include "master/allocator/mesos/hierarchical.hpp"
 
 #include <algorithm>
 #include <set>
@@ -475,20 +475,7 @@ void HierarchicalAllocatorProcess::initialize(
   slaveSorter->initialize(options.slaveSorterResourceWeights);
 
   VLOG(1) << "Initialized hierarchical allocator process with External Module";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  LOG(INFO) << "Test log form hierarchical ";
-  
+
   // Start a loop to run allocation periodically.
   PID<HierarchicalAllocatorProcess> _self = self();
 
@@ -1786,7 +1773,7 @@ void HierarchicalAllocatorProcess::__allocate()
     std::string str =  stream.str();
     std::size_t found = str.find_last_of("-");
     std::string texte = str.substr(found+1);
-    LOG(INFO) << "Server" << texte ;
+    LOG(INFO) << "Server" << texte << ": "<< *slaveInfos[*it].mutable_hostname() ;  
   }
   // To enforce quota, we keep track of consumed quota for roles with a
   // non-default quota.

@@ -63,7 +63,6 @@ set(MODULES_SOURCES
 
 set(MODULES_HEADERS
   ${CMAKE_SOURCE_DIR}/src/allocator.hpp 	
-    ${CMAKE_SOURCE_DIR}/src/hierarchical.hpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/cpu_first/slavesorter.hpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/resources_weights/slavesorter.hpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/lexicographic/slavesorter.hpp

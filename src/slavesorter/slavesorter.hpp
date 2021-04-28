@@ -54,8 +54,7 @@ public:
   //   // be allocated to, according to this Sorter's policy.
   virtual void sort(
     std::vector<SlaveID>::iterator begin,
-    std::vector<SlaveID>::iterator end,
-    hashmap<SlaveID, Slave> slaves) = 0;
+    std::vector<SlaveID>::iterator end) = 0;
 
   // Add resources to the total pool of resources this
   // Sorter should consider.
