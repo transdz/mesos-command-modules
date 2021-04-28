@@ -20,7 +20,7 @@
 
 #include "master/constants.hpp"
 
-#include "mesos/allocator/hierarchical.hpp"
+#include "hierarchical.hpp"
 
 #include "module/manager.hpp"
 
