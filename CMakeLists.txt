@@ -56,7 +56,6 @@ endif()
 
 set(MODULES_SOURCES
   ${CMAKE_SOURCE_DIR}/src/allocator.cpp
-  ${CMAKE_SOURCE_DIR}/src/hierarchical.cpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/cpu_first/slavesorter.cpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/resources_weights/slavesorter.cpp
   ${CMAKE_SOURCE_DIR}/src/slavesorter/lexicographic/slavesorter.cpp
