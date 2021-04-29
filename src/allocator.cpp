@@ -114,10 +114,12 @@ Try<Allocator*> Allocator::create(
 
 static Allocator* createExternalAllocator(const Parameters& parameters)
 {
+  LOG(INFO) << "This is the parameters ";
   for (int i = 0; i < parameters.parameter_size(); ++i) {
     Parameter parameter = parameters.parameter(i);
     LOG(INFO) << parameter.key() << ": " << parameter.value();
   }
+  
   LOG(INFO) << "Initializing a module from external library ";
   Try<Allocator*> allocator = MyLexicographicAllocator::create();
   if (allocator.isError()) {
