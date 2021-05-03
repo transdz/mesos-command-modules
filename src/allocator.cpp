@@ -121,7 +121,7 @@ static Allocator* createExternalAllocator(const Parameters& parameters)
   }
   
   LOG(INFO) << "Initializing a module from external library ";
-  Try<Allocator*> allocator = MyLexicographicAllocator::create();
+  Try<Allocator*> allocator = MyCustomAllocator::create();
   if (allocator.isError()) {
     return nullptr;
   }

@@ -49,7 +49,7 @@
 #include "slavesorter/lexicographic/slavesorter.hpp"
 
 #include "master/constants.hpp"
-
+#include "slavesorter/slavesorter.hpp"
 namespace mesos {
 namespace internal {
 namespace master {
@@ -60,7 +60,7 @@ namespace allocator {
 template <
     typename RoleSorter,
     typename FrameworkSorter,
-    typename SlaveSorter>
+    typename MySlaveSorter>
 class MyAllocator;
 
 typedef MyAllocator<DRFSorter, DRFSorter, RandomSlaveSorter> HierarchicalDRFRandomSortedSlavesAllocatorProcess;
@@ -835,7 +835,7 @@ private:
 template <
     typename RoleSorter,
     typename FrameworkSorter,
-    typename SlaveSorter>
+    typename MySlaveSorter>
 class MyAllocator
   : public internal::MyAllocator
 {
@@ -847,7 +847,7 @@ public:
             return new RoleSorter(this->self(), "allocator/mesos/roles/");
           },
           []() -> Sorter* { return new FrameworkSorter(); },
-          []() -> SlaveSorter* { return new SlaveSorter(); }) {}
+          []() -> MySlaveSorter* { return new MySlaveSorter(); }) {}
 };
 
 } // namespace allocator {

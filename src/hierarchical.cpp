@@ -1763,12 +1763,9 @@ void MyAllocator::__allocate()
       slaveIds.push_back(slaveId);
     }
   }
-
+  slaveSorter->passSlavesInfo(slaves);
   slaveSorter->sort(slaveIds.begin(), slaveIds.end());
-  LOG(INFO) << "Ceci est un miracle !!";
-  LOG(INFO) << "Ceci est un miracle !!";
-  LOG(INFO) << "Ceci est un miracle !!";
-  LOG(INFO) << "Ceci est un miracle !!";
+  LOG(INFO) << "Ceci est un autre miracle !!";
   // To enforce quota, we keep track of consumed quota for roles with a
   // non-default quota.
   //

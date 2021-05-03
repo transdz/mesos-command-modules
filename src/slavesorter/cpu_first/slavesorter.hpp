@@ -31,7 +31,7 @@
 #include <stout/option.hpp>
 
 #include "mesos/resource_quantities.hpp"
-#include "master/allocator/mesos/slavesorter/slavesorter.hpp"
+#include "../slavesorter.hpp"
 
 
 namespace mesos {
@@ -40,7 +40,7 @@ namespace master {
 namespace allocator {
 
 
-class MyCustomSlaveSorter : public SlaveSorter
+class MyCustomSlaveSorter : public MySlaveSorter
 {
 public:
   MyCustomSlaveSorter();
@@ -59,6 +59,8 @@ public:
 
   // Specify that resources have been unallocated on the given slave.
   virtual void unallocated(const SlaveID& slaveId, const Resources& resources);
+
+  virtual void passSlavesInfo(hashmap<SlaveID, Slave> slaves);
 
 private:
   bool _compare(SlaveID& l, SlaveID& r);

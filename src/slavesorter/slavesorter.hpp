@@ -24,26 +24,26 @@ using mesos::Resources;
 using mesos::SlaveID;
 using mesos::SlaveInfo;
 using mesos::ResourceQuantities;
-
+using mesos::Slave;
 using mesos::Value;
 namespace mesos {
 namespace internal {
 namespace master {
 namespace allocator {
 
-class SlaveSorter
+class MySlaveSorter
 {
 public:
-  SlaveSorter() = default;
+  MySlaveSorter() = default;
 
   // Provides the allocator's execution context (via a UPID)
   // and a name prefix in order to support metrics within the
   // sorter implementation.
-  explicit SlaveSorter(
+  explicit MySlaveSorter(
     const process::UPID& allocator, const std::string& metricsPrefix)
   {}
 
-  virtual ~SlaveSorter() = default;
+  virtual ~MySlaveSorter() = default;
 
   // Initialize the sorter.
   virtual void initialize(
@@ -82,6 +82,9 @@ public:
   virtual void unallocated(
     const SlaveID& slaveId, const Resources& resources) = 0;
 };
+
+// Added a new function to pass slaves info 
+  virtual void passSlavesInfo(hashmap<SlaveID, Slave>& slaves) = 0;
 
 
 } // namespace allocator {

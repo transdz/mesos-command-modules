@@ -57,6 +57,7 @@ public:
   virtual void unallocated(const SlaveID& slaveId, const Resources& resources)
   {}
 
+
 private:
   bool compareSlaves(SlaveID a, SlaveID b);
   hashmap<SlaveID, SlaveInfo> slaveInfos;
